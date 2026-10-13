@@ -203,15 +203,110 @@
     frame(performance.now());
   })();
 
-  /* ---------- Signup (front-end only: connect to your email tool before launch) ---------- */
+  /* ---------- Signup: validation + POST to /api/signup ---------- */
   var form = document.getElementById("signup");
-  var status = document.getElementById("status");
+  var emailEl = document.getElementById("email");
+  var phoneEl = document.getElementById("phone");
+  var hpEl = document.getElementById("hp");
+  var joinBtn = document.getElementById("joinBtn");
+  var statusEl = document.getElementById("status");
+  var errEls = { email: document.getElementById("emailErr"), phone: document.getElementById("phoneErr") };
+  var inputs = { email: emailEl, phone: phoneEl };
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  // Keep only the 10 digits. Handles pasted "+91 98765 43210", "098765 43210", spaces and dashes.
+  function cleanPhone(v) {
+    var d = String(v).replace(/\D/g, "");
+    if (d.length === 12 && d.indexOf("91") === 0) d = d.slice(2);
+    else if (d.length === 11 && d.charAt(0) === "0") d = d.slice(1);
+    return d.slice(0, 10);
+  }
+  function setError(field, msg) {
+    errEls[field].textContent = msg;
+    inputs[field].setAttribute("aria-invalid", msg ? "true" : "false");
+  }
+  function setStatus(msg, isError) { statusEl.textContent = msg; statusEl.classList.toggle("error", !!isError); }
+  function clearAll() { setError("email", ""); setError("phone", ""); setStatus("", false); }
+  function setBusy(on) { joinBtn.disabled = on; joinBtn.textContent = on ? "Joining…" : "Join the list"; }
+
+  var NUM_MSG = "Numbers only, please. No letters.";
+  var numTimer = null;
+  phoneEl.addEventListener("input", function () {
+    var raw = phoneEl.value;
+    phoneEl.value = cleanPhone(raw);
+    if (/[A-Za-z]/.test(raw)) {
+      // Keep the hint visible for a moment so it can actually be read
+      setError("phone", NUM_MSG);
+      clearTimeout(numTimer);
+      numTimer = setTimeout(function () { if (errEls.phone.textContent === NUM_MSG) setError("phone", ""); }, 2500);
+    } else if (errEls.phone.textContent !== NUM_MSG) {
+      setError("phone", "");
+    }
+  });
+  emailEl.addEventListener("input", function () { setError("email", ""); });
+
+  function validate() {
+    var errs = {};
+    var email = emailEl.value.trim().toLowerCase();
+    var phone = cleanPhone(phoneEl.value);
+    if (!email) errs.email = "Enter your email address.";
+    else if (email.length > 254 || !EMAIL_RE.test(email)) errs.email = "That email doesn't look right. Try something like you@email.com.";
+    if (!phone) errs.phone = "Enter your 10-digit mobile number.";
+    else if (!/^\d{10}$/.test(phone)) errs.phone = "Mobile number must be exactly 10 digits. You've entered " + phone.length + ".";
+    return { errs: errs, email: email, phone: phone };
+  }
+  function showFieldErrors(errs) {
+    var first = null;
+    ["email", "phone"].forEach(function (f) { if (errs[f]) { setError(f, errs[f]); if (!first) first = inputs[f]; } });
+    if (first) first.focus();
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    var v = document.getElementById("email").value.trim();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { status.textContent = "Enter a valid email address, like you@email.com."; return; }
-    status.textContent = "You're on the list. We'll email you before the drop.";
-    if (!reduce) { var r = document.getElementById("joinBtn").getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2); }
-    form.reset();
+    if (joinBtn.disabled) return;
+    clearAll();
+
+    var v = validate();
+    if (Object.keys(v.errs).length) {
+      showFieldErrors(v.errs);
+      setStatus("Please fix the highlighted fields.", true);
+      return;
+    }
+    // Honeypot filled in = bot. Pretend it worked, send nothing.
+    if (hpEl.value) { setStatus("You're on the list. We'll message you before the drop.", false); form.reset(); return; }
+
+    setBusy(true);
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 12000);
+
+    fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: v.email, phone: v.phone }),
+      signal: ctrl.signal
+    }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (data) { return { res: res, data: data }; });
+    }).then(function (out) {
+      var res = out.res, data = out.data;
+      if (res.ok && data && data.ok) {
+        setStatus("You're on the list. We'll message you before the drop.", false);
+        if (!reduce) { var r = joinBtn.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2); }
+        form.reset();
+      } else if (res.status === 400 && data && data.errors) {
+        showFieldErrors(data.errors);
+        setStatus("Please fix the highlighted fields.", true);
+      } else if (res.status === 409 && data && data.field) {
+        var errs = {}; errs[data.field] = data.field === "email" ? "This email is already on the list." : "This number is already on the list.";
+        showFieldErrors(errs);
+        setStatus("You're already signed up. No need to join twice.", true);
+      } else if (res.status === 429) {
+        setStatus("Too many attempts. Please wait a few minutes and try again.", true);
+      } else {
+        setStatus("Something went wrong on our side. Please try again in a moment.", true);
+      }
+    }).catch(function (err) {
+      if (err && err.name === "AbortError") setStatus("This is taking too long. Check your connection and try again.", true);
+      else setStatus("Couldn't reach the server. Check your internet connection and try again.", true);
+    }).then(function () { clearTimeout(timer); setBusy(false); });
   });
 })();

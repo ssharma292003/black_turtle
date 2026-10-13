@@ -1,0 +1,7 @@
+{
+  "name": "black-turtle-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Black Turtle Clothing showcase site",
+  "engines": { "node": ">=18" }
+}

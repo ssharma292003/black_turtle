@@ -122,10 +122,22 @@
   <section class="join" id="join">
     <div class="seal rv"><div class="sealmark" role="img" aria-label="Black Turtle emblem"></div></div>
     <h2 data-split>Get first access</h2>
-    <p class="rv">Join the list and we will email you before the first drop goes live. No spam, just the launch.</p>
+    <p class="rv">Join the list and we will reach out by email or phone before the first drop goes live. No spam, just the launch.</p>
     <form class="signup rv" id="signup" novalidate>
-      <label for="email" class="sr-only">Email address</label>
-      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+      <div class="fields">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-describedby="emailErr" required>
+          <p class="err" id="emailErr" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="phone">Mobile number</label>
+          <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit number" aria-describedby="phoneErr" required>
+          <p class="err" id="phoneErr" role="alert"></p>
+        </div>
+      </div>
+      <!-- Honeypot: real people never see or fill this. Bots do. -->
+      <input class="hp" type="text" name="contact_pref_hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn primary" type="submit" id="joinBtn">Join the list</button>
     </form>
     <p class="status" id="status" role="status" aria-live="polite"></p>
