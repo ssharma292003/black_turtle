@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<title>Black Turtle Clothing | Tough shell. Sharp style.</title>
+<meta name="description" content="Black Turtle Clothing: heavyweight streetwear with clean lines. Tough shell, sharp style.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta property="og:title" content="Black Turtle Clothing | Tough shell. Sharp style.">
+<meta property="og:description" content="Heavyweight streetwear with clean lines.">
+<meta property="og:type" content="website">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="Black Turtle Clothing, home">
+    <span class="mark" role="img" aria-label="Black Turtle turtle emblem"></span>
+    <span class="brand-name">Black Turtle</span>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="#collection">Collection</a>
+    <a href="#story">Story</a>
+    <a href="#lookbook">Lookbook</a>
+    <a class="btn primary" href="#join">Join the list</a>
+  </nav>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-copy">
+      <h1 aria-label="Tough shell. Sharp style.">
+        <span class="line l1"><span>Tough shell.</span></span>
+        <span class="line l2"><span>Sharp style.</span></span>
+      </h1>
+      <p class="built"><span class="sr-only">Built for the street, the night and the weather.</span><span aria-hidden="true">Built for <span id="rot">the street</span></span></p>
+      <p class="lead"><strong>Black Turtle Clothing</strong> makes heavyweight streetwear with clean lines. Built to take a beating, cut to look sharp doing it.</p>
+      <div class="cta">
+        <a class="btn primary" href="#collection">See the collection</a>
+        <a class="textlink" href="#story">Read our story</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="stage">
+        <svg class="hud" viewBox="-300 -300 600 600">
+          <circle r="292"/>
+          <g class="spin-a"><circle class="r-b" r="270"/><circle class="node" cx="270" cy="0" r="5"/></g>
+          <g class="spin-b"><circle class="r-c" r="248"/><circle class="node" cx="-248" cy="0" r="3.5"/></g>
+        </svg>
+        <div class="turtle" id="turtle"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="track">
+      <div class="group"><span>Tough shell</span><i></i><span class="o">Sharp style</span><i></i><span>Black Turtle Clothing</span><i></i><span class="o">First drop coming soon</span><i></i></div>
+      <div class="group"><span>Tough shell</span><i></i><span class="o">Sharp style</span><i></i><span>Black Turtle Clothing</span><i></i><span class="o">First drop coming soon</span><i></i></div>
+    </div>
+  </div>
+
+  <!-- COLLECTION -->
+  <section id="collection">
+    <div class="sec-head">
+      <h2 data-split>The first drop</h2>
+      <p class="rv">Six pieces, one uniform. Pick a side to see how the range is built.</p>
+    </div>
+    <div class="tabs rv" role="tablist" aria-label="Collection sides">
+      <button class="tab" role="tab" id="tab-shell" aria-selected="true" aria-controls="panel" data-side="shell">Shell</button>
+      <button class="tab" role="tab" id="tab-sharp" aria-selected="false" aria-controls="panel" data-side="sharp" tabindex="-1">Sharp</button>
+    </div>
+    <p class="tab-note rv" id="tabNote"></p>
+    <div class="grid rv" id="panel" role="tabpanel" aria-labelledby="tab-shell"></div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story" id="story">
+    <div class="story-top">
+      <h2 data-split>Armor you can wear.</h2>
+      <div class="story-copy rv">
+        <p>A turtle carries its protection everywhere and never looks out of place. That is the idea behind <strong>Black Turtle</strong>: clothing that is tough enough for the street and sharp enough for the room.</p>
+        <p>Every piece starts with heavy, honest fabric and a clean silhouette. The hexagon from our shell shows up in the details, so you can tell it is ours without a loud logo.</p>
+      </div>
+    </div>
+    <div class="pillars">
+      <div class="pillar rv" style="--d:0"><h3>Heavy fabrics</h3><p>Dense cotton and brushed fleece that hold their weight wash after wash.</p></div>
+      <div class="pillar rv" style="--d:2"><h3>Clean cuts</h3><p>Boxy where it should be boxy, tapered where it should be sharp. No clutter.</p></div>
+      <div class="pillar rv" style="--d:4"><h3>Built to last</h3><p>Reinforced seams and hardware picked for years of wear, not one season.</p></div>
+    </div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section id="lookbook">
+    <div class="sec-head">
+      <h2 data-split>Lookbook</h2>
+      <div class="arrows" aria-label="Scroll the lookbook">
+        <button class="btn dark" id="prev" aria-label="Previous looks">&larr;</button>
+        <button class="btn dark" id="next" aria-label="Next looks">&rarr;</button>
+      </div>
+    </div>
+    <div class="strip" id="strip" tabindex="0" aria-label="Lookbook, scroll sideways">
+      <!-- Replace each .shot with a photo when your shoot is ready -->
+      <figure class="look rv" style="--d:0"><div class="shot a" role="img" aria-label="Lookbook placeholder"></div><figcaption><span>Shell layers</span><span>Hoodie + bomber</span></figcaption></figure>
+      <figure class="look rv" style="--d:1"><div class="shot b" role="img" aria-label="Lookbook placeholder"></div><figcaption><span>Sharp basics</span><span>Tee + cap</span></figcaption></figure>
+      <figure class="look rv" style="--d:2"><div class="shot c" role="img" aria-label="Lookbook placeholder"></div><figcaption><span>After dark</span><span>Full uniform</span></figcaption></figure>
+      <figure class="look rv" style="--d:3"><div class="shot d" role="img" aria-label="Lookbook placeholder"></div><figcaption><span>On the move</span><span>Cargo + tote</span></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section class="join" id="join">
+    <div class="seal rv"><div class="sealmark" role="img" aria-label="Black Turtle emblem"></div></div>
+    <h2 data-split>Get first access</h2>
+    <p class="rv">Join the list and we will email you before the first drop goes live. No spam, just the launch.</p>
+    <form class="signup rv" id="signup" novalidate>
+      <label for="email" class="sr-only">Email address</label>
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+      <button class="btn primary" type="submit" id="joinBtn">Join the list</button>
+    </form>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <div class="socials rv">
+      <a class="textlink" href="#" aria-label="Black Turtle on Instagram">Instagram</a>
+      <a class="textlink" href="#" aria-label="Black Turtle on WhatsApp">WhatsApp</a>
+      <a class="textlink" href="#" aria-label="Email Black Turtle">Email us</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-logo" role="img" aria-label="Black Turtle Clothing"></div>
+  <nav aria-label="Footer">
+    <a href="#collection">Collection</a>
+    <a href="#story">Story</a>
+    <a href="#lookbook">Lookbook</a>
+    <a href="#join">Join</a>
+  </nav>
+  <p>&copy; 2026 Black Turtle Clothing. Tough shell. Sharp style.</p>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
